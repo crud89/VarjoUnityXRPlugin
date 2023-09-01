@@ -360,6 +360,9 @@ namespace Varjo.XR
         {
             metadataStream.Stop();
         }
+        
+        public bool TryAcquireLatestRawCpuImage(out NativeArray<byte> leftBuffer, out NativeArray<byte> rightBuffer, out Vector2 leftSize, out Vector2 rightSize) =>
+            ((VarjoCameraProvider)this.provider).TryAcquireLatestRawCpuImage(out leftBuffer, out rightBuffer, out leftSize, out rightSize);
 
         public VarjoTextureFormat? GetNativeTextureFormatOfCPUImage(XRCpuImageHandle handle)
         {

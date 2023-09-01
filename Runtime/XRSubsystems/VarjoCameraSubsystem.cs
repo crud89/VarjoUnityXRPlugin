@@ -186,7 +186,7 @@ namespace Varjo.XR
 
                 ref readonly VarjoStreamConfig config = ref colorStream.ConfigRef;
                 var img = VarjoCpuImage.CreateImage(out var streamMetadata, colorStream, ImagesAllocator);
-                CPUImages.AddImage(img);
+                //CPUImages.AddImage(img);    //  Don't manage the image, in order to prevent double disposal.
                 leftBuffer = img.leftBuffer;
                 rightBuffer = img.rightBuffer;
                 leftSize = new Vector2(img.leftBufferMetadata.width, img.leftBufferMetadata.height);

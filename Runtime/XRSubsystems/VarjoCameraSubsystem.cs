@@ -184,13 +184,9 @@ namespace Varjo.XR
                     return false;
                 }
 
-                ref readonly VarjoStreamConfig config = ref colorStream.ConfigRef;
-                var img = VarjoCpuImage.CreateImage(out var streamMetadata, colorStream, ImagesAllocator);
-                //CPUImages.AddImage(img);    //  Don't manage the image, in order to prevent double disposal.
-                leftBuffer = img.leftBuffer;
-                rightBuffer = img.rightBuffer;
-                leftSize = new Vector2(img.leftBufferMetadata.width, img.leftBufferMetadata.height);
-                rightSize = new Vector2(img.rightBufferMetadata.width, img.rightBufferMetadata.height);
+                colorStream.ObtainCPUDataCopy(ImagesAllocator, out leftBuffer, out rightBuffer, out var leftBufferMetadata, out var rightBufferMetadata, out var streamMetadata);
+                leftSize = new Vector2(leftBufferMetadata.width, leftBufferMetadata.height);
+                rightSize = new Vector2(rightBufferMetadata.width, rightBufferMetadata.height);
 
                 return true;
             }

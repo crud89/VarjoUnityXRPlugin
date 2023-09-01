@@ -173,6 +173,28 @@ namespace Varjo.XR
                 return true;
             }
 
+            public bool TryAcquireLatestRawCpuImage(out NativeArray<byte> leftBuffer, out NativeArray<byte> rightBuffer, out Vector2 leftSize, out Vector2 rightSize)
+            {
+                if (!colorStream.IsReadyToReturnImage())
+                {
+                    leftBuffer = default;
+                    rightBuffer = default;
+                    leftSize = default;
+                    rightSize = default;
+                    return false;
+                }
+
+                ref readonly VarjoStreamConfig config = ref colorStream.ConfigRef;
+                var img = VarjoCpuImage.CreateImage(out var streamMetadata, colorStream, ImagesAllocator);
+                CPUImages.AddImage(img);
+                leftBuffer = img.leftBuffer;
+                rightBuffer = img.rightBuffer;
+                leftSize = new Vector2(img.leftBufferMetadata.width, img.leftBufferMetadata.height);
+                rightSize = new Vector2(img.rightBufferMetadata.width, img.rightBufferMetadata.height);
+
+                return true;
+            }
+
             //TODO: implement TryGetFrame
             //TODO: implement GetTextureDescriptors
 

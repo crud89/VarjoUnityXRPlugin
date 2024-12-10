@@ -105,7 +105,6 @@ namespace Varjo.XR
         internal abstract void NewFrameCallback(VarjoStreamFrame data);
         internal abstract VarjoStreamType StreamType { get; }
 
-
         [AOT.MonoPInvokeCallback(typeof(VarjoStreamCallback))]
         private static void s_NewFrameCallback(VarjoStreamFrame data, IntPtr userdata)
         {

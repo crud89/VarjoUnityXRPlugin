@@ -184,8 +184,10 @@ namespace Varjo.XR
         internal double principalPointY;            //!< Camera principal point Y.
         internal double focalLengthX;               //!< Camera focal length X.
         internal double focalLengthY;               //!< Camera focal length Y.
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-        internal double[] distortionCoefficients;   //!< Intrinsics model coefficients. For omnidir: 2 radial, skew, xi, 2 tangential.
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+        internal double[] distortionCoefficients;   //!< Intrinsics model coefficients. For omnidir: 2 radial, skew, xi, 2 tangential. For rational: 4 radial, 2 tangential, 2 rational.
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        internal double[] reserved;
     };
 
     [StructLayout(LayoutKind.Sequential)]

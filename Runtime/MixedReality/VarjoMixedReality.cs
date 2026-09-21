@@ -450,7 +450,7 @@ namespace Varjo.XR
 
         internal static VarjoCameraIntrinsics GetCameraIntrinsics(long id, long frameNumber, long channelIndex)
         {
-            return Native.varjo_GetCameraIntrinsics(Varjo.GetVarjoSession(), id, frameNumber, channelIndex);
+            return Native.varjo_GetCameraIntrinsics2(Varjo.GetVarjoSession(), id, frameNumber, channelIndex);
         }
 
         internal static VarjoMatrix GetCameraExtrinsics(long id, long frameNumber, long channelIndex)
@@ -513,7 +513,7 @@ namespace Varjo.XR
             public static extern void varjo_UnlockDataStreamBuffer(IntPtr session, long id);
 
             [DllImport("VarjoLib", CharSet = CharSet.Auto)]
-            public static extern VarjoCameraIntrinsics varjo_GetCameraIntrinsics(IntPtr session, long id, long frameNumber, long channelIndex);
+            public static extern VarjoCameraIntrinsics varjo_GetCameraIntrinsics2(IntPtr session, long id, long frameNumber, long channelIndex);
 
             [DllImport("VarjoLib", CharSet = CharSet.Auto)]
             public static extern VarjoMatrix varjo_GetCameraExtrinsics(IntPtr session, long id, long frameNumber, long index);

@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented in this file.
 
+## 3.7.3
+
+Compatible with Varjo Base 4.6 or newer.
+
+### Changed
+
+  -  Changed `GetCameraIntrinsics` to support rational camera model intrinsics
+
 ## 3.7.2
 
 Compatible with Varjo Base 4.5 or newer.

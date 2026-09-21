@@ -415,7 +415,7 @@ namespace Varjo.XR
 
                 distortionCoefficients = new VarjoDistortionCoefficients(
                     K: new Vector4((float)intrinsics.distortionCoefficients[0], (float)intrinsics.distortionCoefficients[1], (float)intrinsics.distortionCoefficients[2], (float)intrinsics.distortionCoefficients[3]),
-                    Kr: Vector2.zero,
+                    Kr: new Vector2((float)intrinsics.distortionCoefficients[6], (float)intrinsics.distortionCoefficients[7]),
                     P: new Vector2((float)intrinsics.distortionCoefficients[4], (float)intrinsics.distortionCoefficients[5]));
 
                 return true;

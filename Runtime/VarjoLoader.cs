@@ -221,6 +221,9 @@ namespace Varjo.XR
 
         public override bool Start()
         {
+            // HOOK: Install varjo layers support library hooks.
+            Layers.VarjoLayersSupport.Install();
+
             StartSubsystem<XRDisplaySubsystem>();
             StartSubsystem<XRInputSubsystem>();
             StartSubsystem<XRSessionSubsystem>();

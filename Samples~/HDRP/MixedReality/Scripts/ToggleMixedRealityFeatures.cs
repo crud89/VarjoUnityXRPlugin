@@ -10,6 +10,8 @@ public class ToggleMixedRealityFeatures : MonoBehaviour
     public KeyCode reflectionToggleKey = KeyCode.Alpha3;
     public KeyCode VREyeOffsetToggleKey = KeyCode.Alpha4;
     public KeyCode DirectionalLightToggleKey = KeyCode.Alpha5;
+    public KeyCode ChromaKeyingToggleKey = KeyCode.Alpha6;
+    public KeyCode LayersToggleKey = KeyCode.Alpha7;
     public GameObject directionalLight;
 
 
@@ -54,6 +56,14 @@ public class ToggleMixedRealityFeatures : MonoBehaviour
             if (Input.GetKeyDown(DirectionalLightToggleKey))
             {
                 directionalLight.SetActive(!directionalLight.activeSelf);
+            }
+            if (Input.GetKeyDown(ChromaKeyingToggleKey))
+            {
+                mrExample.chromaKeying = !mrExample.chromaKeying;
+            }
+            if (Input.GetKeyDown(LayersToggleKey))
+            {
+                mrExample.useLayers = !mrExample.useLayers;
             }
         }
     }

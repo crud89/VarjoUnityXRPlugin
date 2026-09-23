@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.XR.Management;
 using Varjo.XR;
+using Varjo.XR.Layers;
 
 public class MixedRealityExample : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class MixedRealityExample : MonoBehaviour
     public bool depthEstimation = false;
     [Range(0f, 1.0f)]
     public float VREyeOffset = 1.0f;
+    public bool useLayers = true;
+    public bool chromaKeying = false;
 
     [Header("Real Time Environment")]
     public bool environmentReflections = false;
@@ -32,6 +35,8 @@ public class MixedRealityExample : MonoBehaviour
     private bool videoSeeThroughEnabled = false;
     private bool environmentReflectionsEnabled = false;
     private bool depthEstimationEnabled = false;
+    private bool useLayersEnabled = false;
+    private bool chromaKeyingEnabled = false;
     private float currentVREyeOffset = 1f;
 
     private bool metadataStreamEnabled = false;
@@ -98,6 +103,8 @@ public class MixedRealityExample : MonoBehaviour
         UpdateDepthEstimation();
         UpdateVREyeOffSet();
         UpdateEnvironmentReflections();
+        UpdateChromaKeying();
+        UpdateLayersUsage();
     }
 
     void UpdateVideoSeeThrough()
@@ -191,7 +198,7 @@ public class MixedRealityExample : MonoBehaviour
                 volumeSky.updatePeriod.Override(1f / (float)reflectionRefreshRate);
                 defaultSkyActive = false;
 
-                volumeVSTWhiteBalance.intensity.Override(1f);
+                //volumeVSTWhiteBalance.intensity.Override(1f);
 
                 // Set white balance normalization values
                 Shader.SetGlobalColor("_CamWBGains", metadataFrame.metadata.wbNormalizationData.wbGains);
@@ -211,6 +218,30 @@ public class MixedRealityExample : MonoBehaviour
             volumeExposure.fixedExposure.Override(6.5f);
             volumeVSTWhiteBalance.intensity.Override(0f);
             defaultSkyActive = true;
+        }
+    }
+
+    void UpdateChromaKeying()
+    {
+        if (chromaKeying != chromaKeyingEnabled)
+        {
+            VarjoChromaKey.EnableChromaKey(chromaKeying, false);
+            chromaKeyingEnabled = chromaKeying;
+        }
+    }
+
+    void UpdateLayersUsage()
+    {
+        if (useLayers != useLayersEnabled)
+        {
+            VarjoLayersSupport.SetEnabled(useLayers);
+
+            if (useLayers)
+                VarjoLayersSupport.SetApplicationBaseLayer(
+                    VarjoLayersSupport.LayerFlags.AlphaBlend,          // alpha-blend over the background and VST streams
+                    VarjoLayersSupport.LayerFlags.ChromaKeyMasking);   // disable masking of the base layer using chroma-keying
+
+            useLayersEnabled = useLayers;
         }
     }
 

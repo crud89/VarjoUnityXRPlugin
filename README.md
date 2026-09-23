@@ -1,6 +1,6 @@
 # About Varjo XR Plugin
 
-Varjo XR Plugin provides provides display, input and mixed reality feature support for Varjo HMDs.
+Varjo XR Plugin provides provides display, input and mixed reality feature support for Varjo HMDs. This fork adds support for the [Varjo Layers API](https://developer.varjo.com/docs/native/rendering-to-varjo-headsets#layers) by [hooking the Varjo Unity XR runtime](https://github.com/crud89/VarjoUnityLayersSupport).
 
 ## XR plugin systems
 
@@ -32,6 +32,27 @@ The occlusion subsystem allows controlling the environment depth occlusion.
 Alternatively, if you want to install the package from a local copy, you can select 'Add package from disk' and navigate to the package.json file inside the Varjo XR package.
 - In 'Project Settings' -> 'XR Plug-in Management', Select 'Varjo' from the list of Plug-in providers.
 - To set up tracking, select 'GameObject' -> 'XR' -> 'Convert Main Camera To XR Rig' from Unity’s main menu. For more information on how to migrate an existing Unity scene, see [Configuring your Unity Project for XR](https://docs.unity.cn/Manual/configuring-project-for-xr.html).
+
+## Using layers
+
+The Varjo Unity XR runtime creates a default layer, called the application base layer in the context of the layer support library. The application base layer renders from the XR camera that is created as described above. Layers are coupled with Unity's layers to selectively render content.
+
+- Define a new user layer in Unity ('Project Settings' -> 'Tags and Layers' -> 'Layers').
+	- Remove the new layer from the XR rig's main camera culling mask.
+- Add a new camera to the scene and remove the Audio Listener. 
+	- Set the culling mask to the user layer you just created.
+	- Set the background type to 'Color' and set the background color alpha to '0'.
+	- Under 'Rendering' disable temporal anti-aliasing.
+	- Under 'Output', disable 'XR Rendering'.
+- Make sure to set the color buffer and post-processing buffer formats of the HDRP asset in use ('Project Settings' -> 'Graphics' -> 'Scriptable Render Pipeline Settings') to `R16G16B16A16`.
+- Create an empty game object and add a `VarjoLayerRenderer` to it.
+	- Assign the main camera from the XR rig and the view camera from above to the renderer.
+	- Set the layer flags to whatever you want (see the Varjo Layers API documentation for more information).
+	- Select an order: negative values are rendered behind, positive in front of the application layer.
+- To activate the layered rendering, call `VarjoLayersSupport.SetEnabled(true)` from any script's `Start` method.
+- Call `VarjoLayersSupport.SetApplicationBaseLayer()` with the appropriate layer flags for the base layer from any script's `Start` method to set the base layer blending behavior.
+
+The MixedReality sample scene demonstrates a sample use of the layers API. It draws the HMD models through the base layer that's always visible and masks the spheres though a custom chroma-keying layer.
 
 ## Varjo Settings
 
